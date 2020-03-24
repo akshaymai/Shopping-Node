@@ -10,6 +10,21 @@ const app = express();
 app.set('view engine', 'ejs');
 app.set('views', 'views');
 
+
+const User=require('./models/user')
+
+app.use((req,res,next)=>{
+
+    User.findById('5e78d9294823b926f0adbefd').then((usr)=>{
+    
+        req.user=usr;
+        next()
+    }).catch((rr)=>{
+        console.log(rr)
+    })
+    })
+    
+
 const adminRoutes = require('./routes/admin');
 const shopRoutes = require('./routes/shop');
 
@@ -21,4 +36,7 @@ app.use(shopRoutes);
 
 app.use(errorController.get404);
 
-app.listen(3000);
+ 
+app.listen(3000,()=>{
+    console.log('running')
+});
